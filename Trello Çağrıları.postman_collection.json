@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "60f8ae8e-a429-47b2-adbe-44d3778411c5",
+		"name": "Trello Çağrıları",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Trello Pano Oluşturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Trello deger kontrolu\", function () {\r",
+							"    pm.expect(response.name).is.eql(\"TrelloUdemy\");\r",
+							"    pm.expect(response.closed).to.be.false;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Trello pano oluşturma hideVotes false olmalı\", function() {\r",
+							"    pm.expect(response.prefs.hideVotes).to.be.false;\r",
+							"})\r",
+							"\r",
+							"pm.environment.set(\"PanoID\",response.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/1/boards/?name=TrelloUdemy&key={{trelloKey}}&token={{trelloToken}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "TrelloUdemy"
+						},
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trello Liste oluşturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"listeID\", response.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/1/lists?key={{trelloKey}}&token={{trelloToken}}&name=Udemy Test Ediliyor Mu&idBoard={{PanoID}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						},
+						{
+							"key": "name",
+							"value": "Udemy Test Ediliyor Mu"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{PanoID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trello Card Oluşturma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"cardId\", response.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/1/cards?key={{trelloKey}}&token={{trelloToken}}&idList={{listeID}}&name=Card Oluşturuldu Mu Testi 2",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"1",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						},
+						{
+							"key": "idList",
+							"value": "{{listeID}}"
+						},
+						{
+							"key": "name",
+							"value": "Card Oluşturuldu Mu Testi 2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trello Card Güncelleme",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/1/cards/:id?key={{trelloKey}}&token={{trelloToken}}&name=Udemy test ediliyor mu?",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						},
+						{
+							"key": "name",
+							"value": "Udemy test ediliyor mu?"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{cardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trello Card Silme",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/1/cards/:id?key={{trelloKey}}&token={{trelloToken}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{trelloKey}}"
+						},
+						{
+							"key": "token",
+							"value": "{{trelloToken}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{cardId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
